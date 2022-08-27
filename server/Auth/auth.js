@@ -15,26 +15,38 @@ app.use(
   })
 );
 
-const addEmployee = async (req, res, next) => {
-  try {
-    const { first_name, last_name, telephone, email, manager, role } = req.body;
-    const employee = await connectDB.query(
-      `INSERT INTO employees 
-        (first_name, last_name, password, telephone, email, manager, role) 
-        VALUES 
-        (${first_name}, ${last_name}, ${telephone}, ${email}, ${manager}, ${role})`
-    );
+const addEmployee = (req, res, next) => {
+  console.log(req.body);
+  var { name, num } = req.body;
+  console.log(name);
 
-    let message = "Error in creating programming language";
-
-    if (result.affectedRows) {
-      message = "Programming language created successfully";
+  connectDB.query(
+    "INSERT INTO employees (name) VALUES ? ",
+    [name, num],
+    function (err, result) {
+      if (err) throw err;
+      console.log("Number of records inserted: " + result.affectedRows);
     }
+  );
 
-    return { message };
-  } catch (error) {
-    res.status(400).send("unable to save to database");
-  }
+  // try {
+  //   const name = [[req.body]];
+  //   // const employee = connectDB.query(
+  //   //   `INSERT INTO employees(name) VALUES('${name}")`
+  //   // );
+  //   var employee = connectDB.query(
+  //     "INSERT INTO employees (name) VALUES [name]?"
+  //   );
+  //   let message = "Error in creating Employee";
+
+  //   if (employee.affectedRows) {
+  //     message = "Employee created successfully";
+  //   }
+
+  //   return { message };
+  // } catch (error) {
+  //   res.status(400).send("unable to save to database");
+  // }
 };
 
 const login = async (req, res, next) => {
@@ -81,4 +93,4 @@ const login = async (req, res, next) => {
   }
 };
 
-module.exports = { login };
+module.exports = { login, addEmployee };

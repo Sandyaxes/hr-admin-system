@@ -12,6 +12,7 @@ app.use("/api/auth", require("./Auth/route"));
 app.get("/admin", adminAuth, (req, res) => res.send("Admin Route"));
 app.get("/basic", userAuth, (req, res) => res.send("User Route"));
 app.get("/manager", managerAuth, (req, res) => res.send("Manager Route"));
+// app.post("/add")
 
 app.get("/logout", (req, res) => {
   res.cookie("jwt", "", { maxAge: "1" });
